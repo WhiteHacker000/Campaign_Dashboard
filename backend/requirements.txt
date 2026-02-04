@@ -1,0 +1,16 @@
+# Python dependencies for Campaign Analytics Backend
+
+# FastAPI - Modern web framework for building APIs
+fastapi==0.104.1
+
+# Uvicorn - ASGI server to run FastAPI
+uvicorn[standard]==0.24.0
+
+# SQLAlchemy - Database ORM (Object-Relational Mapping)
+sqlalchemy==2.0.23
+
+# PostgreSQL adapter (for production deployment)
+psycopg2-binary==2.9.9
+
+# Python-dotenv - Load environment variables from .env file
+python-dotenv==1.0.0
