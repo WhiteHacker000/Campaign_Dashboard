@@ -2,19 +2,19 @@
 
 A full-stack Campaign Analytics Dashboard built with Next.js and FastAPI.
 
-## 🚀 Project Overview
+## Project Overview
 
-This is a simplified version of a marketing campaign analytics dashboard that displays campaign data with filtering capabilities. Built as part of the Grippi Junior Full-Stack Developer Intern assignment.
+This is a simplified version of a marketing campaign analytics dashboard that displays campaign data with filtering capabilities.
 
 ### Features
 
-✅ **Backend (FastAPI)**
+--> **Backend (FastAPI)**
 - RESTful API with `/campaigns` endpoint
 - PostgreSQL & SQLite support
 - Status-based filtering
 - CORS enabled for frontend integration
 
-✅ **Frontend (Next.js)**
+--> **Frontend (Next.js)**
 - Modern, responsive dashboard
 - Table and card view modes
 - Real-time campaign filtering
@@ -31,7 +31,7 @@ Internship-II/
 │   ├── populate_db.py   # Database population script
 │   ├── setup.sql        # SQL setup script
 │   ├── requirements.txt # Python dependencies
-│   └── README.md        # Backend documentation
+│   
 │
 ├── frontend/            # Next.js frontend
 │   ├── app/
@@ -125,22 +125,22 @@ Returns all campaigns.
 ### GET /campaigns?status=Active
 Returns only campaigns with the specified status.
 
-## 🎨 Screenshots
-
 The dashboard features:
 - **Table View**: Detailed campaign information in a sortable table
 - **Card View**: Visual card-based layout for easier scanning
 - **Status Filter**: Filter campaigns by Active/Paused status
 - **Responsive Design**: Works seamlessly on desktop, tablet, and mobile
 
-## 🚢 Deployment
+## Deployment
 
-### Backend Deployment (Railway)
+### Backend Deployment (Render)
 
-1. Create a new project on [Railway](https://railway.app)
+**NOTE**: I have used Render for deployment instead of Railway because Railway is not free for backend deployment.
+
+1. Create a new project on [Render](https://render.app)
 2. Add a PostgreSQL service
 3. Add a web service from your GitHub repo
-4. Railway will auto-detect and deploy your FastAPI app
+4. Render will auto-detect and deploy your FastAPI app
 5. The `DATABASE_URL` environment variable is automatically configured
 
 ### Frontend Deployment (Vercel)
@@ -149,23 +149,23 @@ The dashboard features:
 2. Import the project on [Vercel](https://vercel.com)
 3. Set the root directory to `frontend`
 4. Add environment variable:
-   - `NEXT_PUBLIC_API_URL`: Your Railway backend URL
+   - `NEXT_PUBLIC_API_URL`: Your Render backend URL
 5. Deploy!
 
-## 📧 Submission Checklist
+## Submission Checklist
 
-- [x] Backend with FastAPI
-- [x] Frontend with Next.js
-- [x] PostgreSQL/SQLite database
-- [x] Campaign filtering functionality
-- [x] Responsive design
-- [x] Clean, documented code
-- [x] README files
-- [ ] Deployed backend URL
-- [ ] Deployed frontend URL
-- [ ] Video walkthrough
+- [] Backend with FastAPI
+- [] Frontend with Next.js
+- [] PostgreSQL/SQLite database
+- [] Campaign filtering functionality
+- [] Responsive design
+- [] Clean, documented code
+- [] README files
+- [] Deployed backend URL -- (`https://campaign-dashboard-exal.onrender.com`)
+- [] Deployed frontend URL -- (`https://campaign-dashboard-phi.vercel.app`)
 
-## 🔧 Technologies Used
+
+## Technologies Used
 
 **Backend:**
 - FastAPI
@@ -179,17 +179,6 @@ The dashboard features:
 - TypeScript
 - Plain CSS
 
-## 📝 Notes
-
-- The code is kept simple and well-commented for easy understanding
-- Both table and card views are implemented for better user experience
-- SQLite is used by default for easy local development
-- Environment variables make it easy to switch between dev and production
-
-## 👨‍💻 Author
-
-Built for the Grippi Junior Full-Stack Developer Intern Assignment
-
-## 📄 License
+## License
 
 This project is for assignment purposes.
