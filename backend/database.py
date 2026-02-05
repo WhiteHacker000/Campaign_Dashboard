@@ -8,12 +8,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# Get database URL from environment variable, or use SQLite as fallback
 # For production: postgresql://user:password@host:port/database
 # For local development: sqlite:///./campaigns.db
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./campaigns.db")
 
-# Create database engine
 engine = create_engine(
     DATABASE_URL,
     connect_args={"check_same_thread": False} if "sqlite" in DATABASE_URL else {}

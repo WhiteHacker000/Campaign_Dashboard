@@ -24,9 +24,7 @@ campaigns_data = [
 ]
 
 def populate_database():
-    """
-    Populate the database with sample campaign data
-    """
+    
     db = SessionLocal()
     
     try:

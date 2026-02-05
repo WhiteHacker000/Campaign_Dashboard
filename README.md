@@ -154,15 +154,15 @@ The dashboard features:
 
 ## Submission Checklist
 
-- [] Backend with FastAPI
-- [] Frontend with Next.js
-- [] PostgreSQL/SQLite database
-- [] Campaign filtering functionality
-- [] Responsive design
-- [] Clean, documented code
-- [] README files
-- [] Deployed backend URL -- (`https://campaign-dashboard-exal.onrender.com`)
-- [] Deployed frontend URL -- (`https://campaign-dashboard-phi.vercel.app`)
+- [x] Backend with FastAPI
+- [x] Frontend with Next.js
+- [x] PostgreSQL/SQLite database
+- [x] Campaign filtering functionality
+- [x] Responsive design
+- [x] Clean, documented code
+- [x] README files
+- [x] Deployed backend URL -- (https://campaign-dashboard-exal.onrender.com)
+- [x] Deployed frontend URL -- (https://campaign-dashboard-phi.vercel.app)
 
 
 ## Technologies Used

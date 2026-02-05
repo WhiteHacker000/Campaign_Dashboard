@@ -60,10 +60,6 @@ def get_campaigns(
     
     Returns:
         List of campaigns matching the filter criteria
-    
-    Example:
-        GET /campaigns - returns all campaigns
-        GET /campaigns?status=Active - returns only active campaigns
     """
     
     # Start with a query for all campaigns
@@ -92,5 +88,4 @@ def get_campaigns(
 
 if __name__ == "__main__":
     import uvicorn
-    # Run the server on port 8000
     uvicorn.run(app, host="0.0.0.0", port=8000)
