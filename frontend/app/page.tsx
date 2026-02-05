@@ -137,14 +137,14 @@ export default function Home() {
                         onClick={() => setViewMode('table')}
                     >
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '8px', verticalAlign: 'middle' }}><path d="M3 3h18v18H3zM3 9h18M3 15h18M9 3v18" /></svg>
-                        🧾 Table View
+                        Table View
                     </button>
                     <button
                         className={`view-btn ${viewMode === 'cards' ? 'active' : ''}`}
                         onClick={() => setViewMode('cards')}
                     >
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '8px', verticalAlign: 'middle' }}><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-                        🀆 Card View
+                        Card View
                     </button>
 
                     {/* Theme Toggle Button */}
