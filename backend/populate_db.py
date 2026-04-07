@@ -51,5 +51,6 @@ def populate_database():
     finally:
         db.close()
 
+
 if __name__ == "__main__":
     populate_database()

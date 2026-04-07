@@ -1,15 +1,9 @@
 "use client";
 
-/**
- * Campaign Analytics Dashboard - Main Page
- * This component fetches campaign data from the backend and displays it
- */
-
 import { useEffect, useState } from 'react';
 import CampaignTable from './components/CampaignTable';
 import CampaignCard from './components/CampaignCard';
 
-// Define the Campaign type
 interface Campaign {
     id: number;
     name: string;
@@ -32,9 +26,7 @@ export default function Home() {
     // Backend API URL - Change this to your deployed backend URL
     const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
-    /**
-     * Fetch campaigns from the backend API
-     */
+
     const fetchCampaigns = async () => {
         try {
             setLoading(true);
