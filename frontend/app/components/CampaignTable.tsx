@@ -3,14 +3,7 @@
  * Displays campaigns in a table format
  */
 
-interface Campaign {
-    id: number;
-    name: string;
-    status: string;
-    clicks: number;
-    cost: number;
-    impressions: number;
-}
+import { Campaign } from '../types/campaign';
 
 interface CampaignTableProps {
     campaigns: Campaign[];

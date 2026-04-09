@@ -3,14 +3,7 @@
  * Displays a single campaign in card format
  */
 
-interface Campaign {
-    id: number;
-    name: string;
-    status: string;
-    clicks: number;
-    cost: number;
-    impressions: number;
-}
+import { Campaign } from '../types/campaign';
 
 interface CampaignCardProps {
     campaign: Campaign;

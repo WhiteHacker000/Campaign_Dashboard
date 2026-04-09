@@ -1,154 +1,47 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+/**
+ * Campaign Analytics Dashboard - Main Page
+ * This component acts as an orchestrator, composed of smaller single-responsibility modules
+ */
+
+import { useState } from 'react';
 import CampaignTable from './components/CampaignTable';
 import CampaignCard from './components/CampaignCard';
-
-interface Campaign {
-    id: number;
-    name: string;
-    status: string;
-    clicks: number;
-    cost: number;
-    impressions: number;
-}
+import { DashboardHeader } from './components/DashboardHeader';
+import { DashboardControls } from './components/DashboardControls';
+import { useCampaigns } from './hooks/useCampaigns';
+import { useTheme } from './hooks/useTheme';
 
 export default function Home() {
-    // State management
-    const [campaigns, setCampaigns] = useState<Campaign[]>([]);
-    const [filteredCampaigns, setFilteredCampaigns] = useState<Campaign[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
-    const [statusFilter, setStatusFilter] = useState('All');
+    // Isolated hooks taking care of specific domains
+    const {
+        filteredCampaigns,
+        loading,
+        error,
+        statusFilter,
+        handleFilterChange
+    } = useCampaigns();
+
+    const { theme, toggleTheme } = useTheme();
+
+    // Local UI state
     const [viewMode, setViewMode] = useState<'table' | 'cards'>('table');
-    const [theme, setTheme] = useState<'light' | 'dark'>('light');
-
-    // Backend API URL - Change this to your deployed backend URL
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-
-
-    const fetchCampaigns = async () => {
-        try {
-            setLoading(true);
-            setError('');
-
-            const response = await fetch(`${API_URL}/campaigns`);
-
-            if (!response.ok) {
-                throw new Error('Failed to fetch campaigns');
-            }
-
-            const data = await response.json();
-            setCampaigns(data);
-            setFilteredCampaigns(data);
-
-        } catch (err) {
-            setError('Failed to load campaigns. Please make sure the backend is running.');
-            console.error('Error fetching campaigns:', err);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    /**
-   * Load theme from localStorage on mount
-   */
-    useEffect(() => {
-        const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
-        if (savedTheme) {
-            setTheme(savedTheme);
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        }
-    }, []);
-
-    /**
-     * Load campaigns when component mounts
-     */
-    useEffect(() => {
-        fetchCampaigns();
-    }, []);
-
-    /**
-     * Filter campaigns when status filter changes
-     */
-    useEffect(() => {
-        if (statusFilter === 'All') {
-            setFilteredCampaigns(campaigns);
-        } else {
-            setFilteredCampaigns(
-                campaigns.filter(campaign => campaign.status === statusFilter)
-            );
-        }
-    }, [statusFilter, campaigns]);
-
-    /**
-     * Handle status filter change
-     */
-    const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setStatusFilter(event.target.value);
-    };
-
-    /**
-     * Toggle between light and dark theme
-     */
-    const toggleTheme = () => {
-        const newTheme = theme === 'light' ? 'dark' : 'light';
-        setTheme(newTheme);
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-    };
 
     return (
         <div className="container">
-            {/* Page Header */}
-            <header className="header">
-                <h1>Campaign Analytics Dashboard</h1>
-                <p>Monitor and analyze your marketing campaigns</p>
-            </header>
+            {/* Header Component */}
+            <DashboardHeader />
 
-            {/* Controls: Filter and View Toggle */}
-            <div className="controls">
-                {/* Status Filter Dropdown */}
-                <div className="filter-group">
-                    <label htmlFor="status-filter">Filter by Status:</label>
-                    <select
-                        id="status-filter"
-                        value={statusFilter}
-                        onChange={handleFilterChange}
-                    >
-                        <option value="All">All Campaigns</option>
-                        <option value="Active">Active</option>
-                        <option value="Paused">Paused</option>
-                    </select>
-                </div>
-
-                {/* View Mode Toggle */}
-                <div className="view-toggle">
-                    <button
-                        className={`view-btn ${viewMode === 'table' ? 'active' : ''}`}
-                        onClick={() => setViewMode('table')}
-                    >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '8px', verticalAlign: 'middle' }}><path d="M3 3h18v18H3zM3 9h18M3 15h18M9 3v18" /></svg>
-                        Table View
-                    </button>
-                    <button
-                        className={`view-btn ${viewMode === 'cards' ? 'active' : ''}`}
-                        onClick={() => setViewMode('cards')}
-                    >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '8px', verticalAlign: 'middle' }}><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-                        Card View
-                    </button>
-
-                    {/* Theme Toggle Button */}
-                    <button
-                        className="theme-toggle"
-                        onClick={toggleTheme}
-                        title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-                    >
-                        {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
-                    </button>
-                </div>
-            </div>
+            {/* Controls Component */}
+            <DashboardControls
+                statusFilter={statusFilter}
+                onFilterChange={handleFilterChange}
+                viewMode={viewMode}
+                onViewModeChange={setViewMode}
+                theme={theme}
+                onThemeToggle={toggleTheme}
+            />
 
             {/* Loading State */}
             {loading && (
@@ -165,17 +58,15 @@ export default function Home() {
                 </div>
             )}
 
-            {/* Campaign Display - Table or Cards */}
+            {/* Content Rendering */}
             {!loading && !error && (
                 <>
                     {filteredCampaigns.length === 0 ? (
-                        // Empty State
                         <div className="empty-state">
                             <div className="empty-state-icon">🔍</div>
                             <p>No campaigns found matching your filter.</p>
                         </div>
                     ) : (
-                        // Display campaigns based on view mode
                         <>
                             {viewMode === 'table' ? (
                                 <CampaignTable campaigns={filteredCampaigns} />
