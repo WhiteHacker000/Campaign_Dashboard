@@ -54,10 +54,14 @@ Internship-II/
 │   │       └── CampaignTable.tsx
 │   ├── package.json
 │   └── README.md
-│
+│-- Diagrams/
+|    |-Sequence Diagram
+|    |-Component Diagram
 └── README.md            # Root documentation
 ```
-
+//Diagram Link//
+![alt text](<diagrams/Sequence Diagram.jpeg>)
+![alt text](<diagrams/Component Diagram.jpeg>)
 ---
 
 ## ⚙️ Setup Instructions
