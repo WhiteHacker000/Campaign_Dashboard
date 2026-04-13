@@ -57,11 +57,14 @@ Internship-II/
 │-- Diagrams/
 |    |-Sequence Diagram
 |    |-Component Diagram
+|    |-Use case Diagram
 └── README.md            # Root documentation
 ```
 //Diagram Link//
 ![alt text](<diagrams/Sequence Diagram.jpeg>)
 ![alt text](<diagrams/Component Diagram.jpeg>)
+![alt text](diagrams/dev.png)
+
 ---
 
 ## ⚙️ Setup Instructions
