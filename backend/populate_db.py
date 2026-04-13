@@ -21,6 +21,16 @@ campaigns_data = [
     {"id": 8, "name": "Valentine's Day Campaign", "status": "Paused", "clicks": 720, "cost": 52.15, "impressions": 18500},
     {"id": 9, "name": "Easter Special Offers", "status": "Active", "clicks": 1680, "cost": 142.60, "impressions": 54000},
     {"id": 10, "name": "Cyber Monday Deals", "status": "Paused", "clicks": 2450, "cost": 325.80, "impressions": 88000},
+    {"id": 11, "name": "Mother's Day Promotion", "status": "Active", "clicks": 2200, "cost": 310.25, "impressions": 78000},
+    {"id": 12, "name": "Father's Day Sale", "status": "Active", "clicks": 1950, "cost": 265.40, "impressions": 65000},
+    {"id": 13, "name": "Independence Day Special", "status": "Paused", "clicks": 1350, "cost": 180.50, "impressions": 45000},
+    {"id": 14, "name": "Labor Day Weekend", "status": "Active", "clicks": 2800, "cost": 395.75, "impressions": 92000},
+    {"id": 15, "name": "Halloween Costume Sale", "status": "Active", "clicks": 3100, "cost": 420.90, "impressions": 105000},
+    {"id": 16, "name": "Thanksgiving Deals", "status": "Paused", "clicks": 1750, "cost": 240.60, "impressions": 58000},
+    {"id": 17, "name": "Christmas Shopping", "status": "Active", "clicks": 4500, "cost": 650.30, "impressions": 150000},
+    {"id": 18, "name": "New Year's Resolution", "status": "Paused", "clicks": 1200, "cost": 155.80, "impressions": 38000},
+    {"id": 19, "name": "St. Patrick's Day", "status": "Active", "clicks": 1600, "cost": 210.45, "impressions": 52000},
+    {"id": 20, "name": "April Fools Promo", "status": "Paused", "clicks": 900, "cost": 75.20, "impressions": 25000},
 ]
 
 def populate_database():
