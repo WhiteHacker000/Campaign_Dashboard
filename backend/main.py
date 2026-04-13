@@ -80,7 +80,8 @@ def get_campaigns(
             "status": campaign.status,
             "clicks": campaign.clicks,
             "cost": campaign.cost,
-            "impressions": campaign.impressions
+            "impressions": campaign.impressions,
+            "ctr": (campaign.clicks / campaign.impressions * 100) if campaign.impressions > 0 else 0.0
         }
         for campaign in campaigns
     ]

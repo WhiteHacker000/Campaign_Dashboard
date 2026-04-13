@@ -5,4 +5,5 @@ export interface Campaign {
     clicks: number;
     cost: number;
     impressions: number;
+    ctr: number;
 }

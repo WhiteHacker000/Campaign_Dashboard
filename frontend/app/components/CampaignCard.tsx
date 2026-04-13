@@ -39,6 +39,12 @@ export default function CampaignCard({ campaign }: CampaignCardProps) {
                     <span className="stat-label">Impressions</span>
                     <span className="stat-value">{campaign.impressions.toLocaleString()}</span>
                 </div>
+
+                {/* CTR */}
+                <div className="stat-item">
+                    <span className="stat-label">CTR</span>
+                    <span className="stat-value">{campaign.ctr.toFixed(2)}%</span>
+                </div>
             </div>
         </div>
     );

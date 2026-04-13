@@ -21,6 +21,7 @@ export default function CampaignTable({ campaigns }: CampaignTableProps) {
                         <th>Clicks</th>
                         <th>Cost</th>
                         <th>Impressions</th>
+                        <th>CTR (%)</th>
                     </tr>
                 </thead>
 
@@ -48,6 +49,9 @@ export default function CampaignTable({ campaigns }: CampaignTableProps) {
 
                             {/* Impressions */}
                             <td>{campaign.impressions.toLocaleString()}</td>
+
+                            {/* CTR */}
+                            <td>{campaign.ctr.toFixed(2)}%</td>
                         </tr>
                     ))}
                 </tbody>
