@@ -64,6 +64,7 @@ Internship-II/
 ![alt text](<diagrams/Sequence Diagram.jpeg>)
 ![alt text](<diagrams/Component Diagram.jpeg>)
 ![alt text](diagrams/dev.png)
+![alt text](<diagrams/Class Diagram.png>)
 
 ---
 
