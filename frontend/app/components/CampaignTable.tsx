@@ -51,7 +51,7 @@ export default function CampaignTable({ campaigns }: CampaignTableProps) {
                             <td>{campaign.impressions.toLocaleString()}</td>
 
                             {/* CTR */}
-                            <td>{campaign.ctr.toFixed(2)}%</td>
+                            <td>{(campaign.ctr || 0).toFixed(2)}%</td>
                         </tr>
                     ))}
                 </tbody>

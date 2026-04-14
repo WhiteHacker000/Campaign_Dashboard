@@ -43,7 +43,7 @@ export default function CampaignCard({ campaign }: CampaignCardProps) {
                 {/* CTR */}
                 <div className="stat-item">
                     <span className="stat-label">CTR</span>
-                    <span className="stat-value">{campaign.ctr.toFixed(2)}%</span>
+                    <span className="stat-value">{(campaign.ctr || 0).toFixed(2)}%</span>
                 </div>
             </div>
         </div>
