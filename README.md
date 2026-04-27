@@ -1,4 +1,4 @@
-Here’s a cleaner, more professional, and recruiter-ready version of your README:
+README:
 
 ---
 
