@@ -3,6 +3,7 @@ FastAPI Backend for Campaign Analytics Dashboard
 This is the main application file that sets up our API endpoints
 """
 
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
@@ -10,15 +11,28 @@ from typing import Optional
 
 from database import engine, get_db, Base
 from models import Campaign
+from populate_db import populate_database
 
 # Create all database tables
 Base.metadata.create_all(bind=engine)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    Runs on server startup: seeds / syncs campaign data in the database.
+    Using upsert logic so it is safe to run on every deploy.
+    """
+    populate_database()
+    yield
+
 
 # Initialize FastAPI application
 app = FastAPI(
     title="Campaign Analytics API",
     description="API for managing and viewing marketing campaign data",
-    version="1.0.0"
+    version="1.0.0",
+    lifespan=lifespan
 )
 
 # Enable CORS so our frontend can communicate with the backend
