@@ -7,7 +7,12 @@ export const CampaignService = {
      * Fetch all campaigns from the backend API
      */
     async fetchCampaigns(): Promise<Campaign[]> {
-        const response = await fetch(`${API_URL}/campaigns`);
+        const response = await fetch(`${API_URL}/campaigns`, {
+            cache: 'no-store', // Prevent Next.js or browser caching
+            headers: {
+                'Cache-Control': 'no-cache'
+            }
+        });
 
         if (!response.ok) {
             throw new Error('Failed to fetch campaigns');
