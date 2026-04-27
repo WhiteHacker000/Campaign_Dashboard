@@ -34,27 +34,20 @@ campaigns_data = [
 ]
 
 def populate_database():
-    
+
     db = SessionLocal()
-    
+
     try:
-        # Check if campaigns already exist
-        existing_count = db.query(Campaign).count()
-        
-        if existing_count > 0:
-            print(f"Database already has {existing_count} campaigns.")
-            print("Skipping population to avoid duplicates.")
-            return
-        
-        # Add all campaigns
+        # Upsert all campaigns (insert if new, update if already exists)
         for campaign_data in campaigns_data:
             campaign = Campaign(**campaign_data)
-            db.add(campaign)
-        
-        # Commit the changes
+            db.merge(campaign)  # merge = INSERT ... ON CONFLICT DO UPDATE
+
         db.commit()
-        print(f"Successfully added {len(campaigns_data)} campaigns to the database!")
-        
+
+        final_count = db.query(Campaign).count()
+        print(f"Database synced successfully! Total campaigns: {final_count}")
+
     except Exception as e:
         print(f"Error populating database: {e}")
         db.rollback()
