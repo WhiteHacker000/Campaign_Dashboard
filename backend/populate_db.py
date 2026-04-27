@@ -31,6 +31,7 @@ campaigns_data = [
     {"id": 18, "name": "New Year's Resolution", "status": "Paused", "clicks": 1200, "cost": 155.80, "impressions": 38000},
     {"id": 19, "name": "St. Patrick's Day", "status": "Active", "clicks": 1600, "cost": 210.45, "impressions": 52000},
     {"id": 20, "name": "April Fools Promo", "status": "Paused", "clicks": 900, "cost": 75.20, "impressions": 25000},
+    {"id": 21, "name": "Summer Fitness Challenge", "status": "Active", "clicks": 2750, "cost": 340.60, "impressions": 89000},
 ]
 
 def populate_database():
