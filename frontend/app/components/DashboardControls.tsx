@@ -1,40 +1,86 @@
 import React from 'react';
+import { CampaignSortKey } from '../hooks/useCampaigns';
 
 interface DashboardControlsProps {
     statusFilter: string;
     onFilterChange: (status: string) => void;
+    searchQuery: string;
+    onSearchChange: (query: string) => void;
+    sortBy: CampaignSortKey;
+    onSortChange: (sortBy: CampaignSortKey) => void;
     viewMode: 'table' | 'cards';
     onViewModeChange: (mode: 'table' | 'cards') => void;
     theme: 'light' | 'dark';
     onThemeToggle: () => void;
+    onRefresh: () => void;
+    onExport: () => void;
 }
 
 export const DashboardControls: React.FC<DashboardControlsProps> = ({
     statusFilter,
     onFilterChange,
+    searchQuery,
+    onSearchChange,
+    sortBy,
+    onSortChange,
     viewMode,
     onViewModeChange,
     theme,
-    onThemeToggle
+    onThemeToggle,
+    onRefresh,
+    onExport
 }) => {
     return (
         <div className="controls">
-            {/* Status Filter Dropdown */}
-            <div className="filter-group">
-                <label htmlFor="status-filter">Filter by Status:</label>
-                <select
-                    id="status-filter"
-                    value={statusFilter}
-                    onChange={(e) => onFilterChange(e.target.value)}
-                >
-                    <option value="All">All Campaigns</option>
-                    <option value="Active">Active</option>
-                    <option value="Paused">Paused</option>
-                </select>
+            <div className="control-filters">
+                <div className="filter-group search-group">
+                    <label htmlFor="campaign-search">Search</label>
+                    <input
+                        id="campaign-search"
+                        type="search"
+                        value={searchQuery}
+                        onChange={(e) => onSearchChange(e.target.value)}
+                        placeholder="Find campaign"
+                    />
+                </div>
+
+                <div className="filter-group">
+                    <label htmlFor="status-filter">Status</label>
+                    <select
+                        id="status-filter"
+                        value={statusFilter}
+                        onChange={(e) => onFilterChange(e.target.value)}
+                    >
+                        <option value="All">All Campaigns</option>
+                        <option value="Active">Active</option>
+                        <option value="Paused">Paused</option>
+                    </select>
+                </div>
+
+                <div className="filter-group">
+                    <label htmlFor="sort-filter">Sort by</label>
+                    <select
+                        id="sort-filter"
+                        value={sortBy}
+                        onChange={(e) => onSortChange(e.target.value as CampaignSortKey)}
+                    >
+                        <option value="clicks">Most Clicks</option>
+                        <option value="impressions">Most Impressions</option>
+                        <option value="ctr">Highest CTR</option>
+                        <option value="cost">Highest Cost</option>
+                        <option value="name">Campaign Name</option>
+                    </select>
+                </div>
             </div>
 
             {/* View Mode Toggle */}
             <div className="view-toggle">
+                <button className="view-btn" onClick={onRefresh}>
+                    Refresh
+                </button>
+                <button className="view-btn" onClick={onExport}>
+                    Export CSV
+                </button>
                 <button
                     className={`view-btn ${viewMode === 'table' ? 'active' : ''}`}
                     onClick={() => onViewModeChange('table')}

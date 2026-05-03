@@ -9,8 +9,10 @@ import { useEffect, useState } from 'react';
 import { AuthPage } from './components/AuthPage';
 import CampaignTable from './components/CampaignTable';
 import CampaignCard from './components/CampaignCard';
+import { AnalyticsSummary } from './components/AnalyticsSummary';
 import { DashboardHeader } from './components/DashboardHeader';
 import { DashboardControls } from './components/DashboardControls';
+import { PerformancePanel } from './components/PerformancePanel';
 import { useCampaigns } from './hooks/useCampaigns';
 import { useTheme } from './hooks/useTheme';
 import { AuthUser } from './types/auth';
@@ -91,11 +93,40 @@ function Dashboard({ currentUser, theme, onThemeToggle, onLogout }: DashboardPro
         loading,
         error,
         statusFilter,
-        handleFilterChange
+        searchQuery,
+        sortBy,
+        handleFilterChange,
+        handleSearchChange,
+        handleSortChange,
+        refreshCampaigns
     } = useCampaigns();
 
     // Local UI state
     const [viewMode, setViewMode] = useState<'table' | 'cards'>('table');
+
+    const handleExport = () => {
+        const headers = ['Name', 'Status', 'Clicks', 'Cost', 'CPC', 'Impressions', 'CTR'];
+        const rows = filteredCampaigns.map((campaign) => [
+            campaign.name,
+            campaign.status,
+            campaign.clicks,
+            campaign.cost.toFixed(2),
+            (campaign.clicks > 0 ? campaign.cost / campaign.clicks : 0).toFixed(2),
+            campaign.impressions,
+            (campaign.ctr || 0).toFixed(2)
+        ]);
+
+        const csv = [headers, ...rows]
+            .map((row) => row.map((value) => `"${String(value).replace(/"/g, '""')}"`).join(','))
+            .join('\n');
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'campaign-analytics.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+    };
 
     return (
         <div className="container">
@@ -117,10 +148,16 @@ function Dashboard({ currentUser, theme, onThemeToggle, onLogout }: DashboardPro
             <DashboardControls
                 statusFilter={statusFilter}
                 onFilterChange={handleFilterChange}
+                searchQuery={searchQuery}
+                onSearchChange={handleSearchChange}
+                sortBy={sortBy}
+                onSortChange={handleSortChange}
                 viewMode={viewMode}
                 onViewModeChange={setViewMode}
                 theme={theme}
                 onThemeToggle={onThemeToggle}
+                onRefresh={refreshCampaigns}
+                onExport={handleExport}
             />
 
             {/* Loading State */}
@@ -141,6 +178,8 @@ function Dashboard({ currentUser, theme, onThemeToggle, onLogout }: DashboardPro
             {/* Content Rendering */}
             {!loading && !error && (
                 <>
+                    <AnalyticsSummary campaigns={filteredCampaigns} />
+
                     {filteredCampaigns.length === 0 ? (
                         <div className="empty-state">
                             <div className="empty-state-icon">🔍</div>
@@ -148,6 +187,8 @@ function Dashboard({ currentUser, theme, onThemeToggle, onLogout }: DashboardPro
                         </div>
                     ) : (
                         <>
+                            <PerformancePanel campaigns={filteredCampaigns} />
+
                             {viewMode === 'table' ? (
                                 <CampaignTable campaigns={filteredCampaigns} />
                             ) : (

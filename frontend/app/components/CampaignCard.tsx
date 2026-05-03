@@ -45,6 +45,12 @@ export default function CampaignCard({ campaign }: CampaignCardProps) {
                     <span className="stat-label">CTR</span>
                     <span className="stat-value">{(campaign.ctr || 0).toFixed(2)}%</span>
                 </div>
+
+                {/* CPC */}
+                <div className="stat-item">
+                    <span className="stat-label">CPC</span>
+                    <span className="stat-value">${(campaign.clicks > 0 ? campaign.cost / campaign.clicks : 0).toFixed(2)}</span>
+                </div>
             </div>
         </div>
     );

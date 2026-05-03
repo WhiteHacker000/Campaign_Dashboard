@@ -20,6 +20,7 @@ export default function CampaignTable({ campaigns }: CampaignTableProps) {
                         <th>Status</th>
                         <th>Clicks</th>
                         <th>Cost</th>
+                        <th>CPC</th>
                         <th>Impressions</th>
                         <th>CTR (%)</th>
                     </tr>
@@ -46,6 +47,9 @@ export default function CampaignTable({ campaigns }: CampaignTableProps) {
 
                             {/* Cost */}
                             <td>${campaign.cost.toFixed(2)}</td>
+
+                            {/* CPC */}
+                            <td>${(campaign.clicks > 0 ? campaign.cost / campaign.clicks : 0).toFixed(2)}</td>
 
                             {/* Impressions */}
                             <td>{campaign.impressions.toLocaleString()}</td>
