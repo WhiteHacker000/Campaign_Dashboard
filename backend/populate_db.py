@@ -4,7 +4,8 @@ Run this script to populate the database with sample campaign data
 """
 
 from database import SessionLocal, engine, Base
-from models import Campaign
+from auth_utils import hash_password
+from models import Campaign, User
 
 # Create all tables
 Base.metadata.create_all(bind=engine)
@@ -34,6 +35,15 @@ campaigns_data = [
     {"id": 21, "name": "Summer Fitness Challenge", "status": "Active", "clicks": 2750, "cost": 340.60, "impressions": 89000},
 ]
 
+demo_users = [
+    {
+        "id": 1,
+        "name": "Demo Manager",
+        "email": "demo@campaign.com",
+        "password_hash": hash_password("demo123"),
+    }
+]
+
 def populate_database():
 
     db = SessionLocal()
@@ -44,10 +54,19 @@ def populate_database():
             campaign = Campaign(**campaign_data)
             db.merge(campaign)  # merge = INSERT ... ON CONFLICT DO UPDATE
 
+        for user_data in demo_users:
+            existing_user = db.query(User).filter(User.email == user_data["email"]).first()
+            if existing_user:
+                existing_user.name = user_data["name"]
+                existing_user.password_hash = user_data["password_hash"]
+            else:
+                db.add(User(**user_data))
+
         db.commit()
 
         final_count = db.query(Campaign).count()
-        print(f"Database synced successfully! Total campaigns: {final_count}")
+        user_count = db.query(User).count()
+        print(f"Database synced successfully! Total campaigns: {final_count}, users: {user_count}")
 
     except Exception as e:
         print(f"Error populating database: {e}")
