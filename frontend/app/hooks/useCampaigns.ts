@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Campaign } from '../types/campaign';
+import { Campaign, CampaignInput } from '../types/campaign';
 import { CampaignService } from '../services/campaignService';
 
 export type CampaignSortKey = 'name' | 'clicks' | 'cost' | 'impressions' | 'ctr';
@@ -61,6 +61,12 @@ export const useCampaigns = () => {
         setSortBy(key);
     };
 
+    const addCampaign = async (campaign: CampaignInput, adminUserId: number) => {
+        const createdCampaign = await CampaignService.createCampaign(campaign, adminUserId);
+        setCampaigns((currentCampaigns) => [createdCampaign, ...currentCampaigns]);
+        return createdCampaign;
+    };
+
     return {
         campaigns,
         filteredCampaigns,
@@ -72,6 +78,7 @@ export const useCampaigns = () => {
         handleFilterChange,
         handleSearchChange,
         handleSortChange,
+        addCampaign,
         refreshCampaigns: loadCampaigns
     };
 };

@@ -10,6 +10,7 @@ import { AuthPage } from './components/AuthPage';
 import CampaignTable from './components/CampaignTable';
 import CampaignCard from './components/CampaignCard';
 import { AnalyticsSummary } from './components/AnalyticsSummary';
+import { AdminCampaignForm } from './components/AdminCampaignForm';
 import { DashboardHeader } from './components/DashboardHeader';
 import { DashboardControls } from './components/DashboardControls';
 import { PerformancePanel } from './components/PerformancePanel';
@@ -98,6 +99,7 @@ function Dashboard({ currentUser, theme, onThemeToggle, onLogout }: DashboardPro
         handleFilterChange,
         handleSearchChange,
         handleSortChange,
+        addCampaign,
         refreshCampaigns
     } = useCampaigns();
 
@@ -138,6 +140,7 @@ function Dashboard({ currentUser, theme, onThemeToggle, onLogout }: DashboardPro
                     <span className="session-label">Signed in as</span>
                     <strong>{currentUser.name}</strong>
                     <span>{currentUser.email}</span>
+                    {currentUser.is_admin && <span className="admin-badge">Admin</span>}
                 </div>
                 <button type="button" className="logout-btn" onClick={onLogout}>
                     Logout
@@ -159,6 +162,12 @@ function Dashboard({ currentUser, theme, onThemeToggle, onLogout }: DashboardPro
                 onRefresh={refreshCampaigns}
                 onExport={handleExport}
             />
+
+            {currentUser.is_admin && (
+                <AdminCampaignForm
+                    onAddCampaign={(campaign) => addCampaign(campaign, currentUser.id).then(() => undefined)}
+                />
+            )}
 
             {/* Loading State */}
             {loading && (

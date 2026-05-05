@@ -21,6 +21,7 @@ This project is a streamlined marketing analytics platform that enables users to
 * RESTful API with `/campaigns` endpoint
 * Supports both PostgreSQL and SQLite databases
 * Query-based filtering (e.g., status: Active/Paused)
+* Admin-only `POST /campaigns` endpoint for adding new campaigns
 * CORS-enabled for seamless frontend integration
 
 ### 🎨 Frontend (Next.js)
@@ -28,6 +29,7 @@ This project is a streamlined marketing analytics platform that enables users to
 * Responsive and modern dashboard UI
 * Dual view modes: **Table** and **Card layout**
 * Dynamic filtering with real-time updates
+* Admin login with an add-campaign form
 * Lightweight styling using plain CSS
 
 ---
@@ -89,6 +91,11 @@ uvicorn main:app --reload
 
 Backend runs at: `http://localhost:8000`
 
+Seeded credentials:
+
+* Admin: `admin@campaign.com` / `admin123`
+* Viewer: `demo@campaign.com` / `demo123`
+
 ---
 
 ### 🎨 Frontend Setup
@@ -127,6 +134,21 @@ Returns all campaigns.
 
 Returns campaigns filtered by status.
 
+### `POST /campaigns`
+
+Adds a campaign when the logged-in user is an admin.
+
+```json
+{
+  "name": "May Launch",
+  "status": "Active",
+  "clicks": 1000,
+  "cost": 240.75,
+  "impressions": 40000,
+  "admin_user_id": 2
+}
+```
+
 ---
 
 ## 📊 Dashboard Capabilities
@@ -134,6 +156,7 @@ Returns campaigns filtered by status.
 * **Table View** → Structured, sortable campaign data
 * **Card View** → Visual summary for quick insights
 * **Status Filtering** → Toggle between campaign states
+* **Admin Campaign Entry** → Admins can add new campaigns from the dashboard
 * **Responsive Design** → Optimized for all screen sizes
 
 ---

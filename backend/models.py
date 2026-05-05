@@ -3,7 +3,7 @@ Database models for the Campaign Analytics Dashboard
 This file defines the structure of our database tables
 """
 
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Boolean, Column, Integer, String, Float
 from database import Base
 
 
@@ -31,3 +31,4 @@ class User(Base):
     name = Column(String, nullable=False)
     email = Column(String, unique=True, index=True, nullable=False)
     password_hash = Column(String, nullable=False)
+    is_admin = Column(Boolean, nullable=False, default=False)

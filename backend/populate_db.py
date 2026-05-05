@@ -3,6 +3,8 @@ Database population script
 Run this script to populate the database with sample campaign data
 """
 
+from sqlalchemy import inspect, text
+
 from database import SessionLocal, engine, Base
 from auth_utils import hash_password
 from models import Campaign, User
@@ -37,14 +39,42 @@ campaigns_data = [
 
 demo_users = [
     {
-        "id": 1,
         "name": "Demo Manager",
         "email": "demo@campaign.com",
         "password_hash": hash_password("demo123"),
+        "is_admin": False,
+    },
+    {
+        "name": "Admin Manager",
+        "email": "admin@campaign.com",
+        "password_hash": hash_password("admin123"),
+        "is_admin": True,
     }
 ]
 
+
+def ensure_user_admin_column():
+    """
+    Keep existing local SQLite/Postgres databases compatible with the admin role.
+    SQLAlchemy create_all creates missing tables, but it does not alter old tables.
+    """
+    inspector = inspect(engine)
+    if not inspector.has_table("users"):
+        return
+
+    column_names = {column["name"] for column in inspector.get_columns("users")}
+    if "is_admin" in column_names:
+        return
+
+    default_value = "0" if engine.dialect.name == "sqlite" else "FALSE"
+    with engine.begin() as connection:
+        connection.execute(
+            text(f"ALTER TABLE users ADD COLUMN is_admin BOOLEAN NOT NULL DEFAULT {default_value}")
+        )
+
+
 def populate_database():
+    ensure_user_admin_column()
 
     db = SessionLocal()
 
@@ -59,6 +89,7 @@ def populate_database():
             if existing_user:
                 existing_user.name = user_data["name"]
                 existing_user.password_hash = user_data["password_hash"]
+                existing_user.is_admin = user_data["is_admin"]
             else:
                 db.add(User(**user_data))
 

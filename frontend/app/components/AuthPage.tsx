@@ -13,8 +13,8 @@ interface AuthPageProps {
 export function AuthPage({ onAuthSuccess, theme, onThemeToggle }: AuthPageProps) {
     const [mode, setMode] = useState<'login' | 'signup'>('login');
     const [name, setName] = useState('');
-    const [email, setEmail] = useState('demo@campaign.com');
-    const [password, setPassword] = useState('demo123');
+    const [email, setEmail] = useState('admin@campaign.com');
+    const [password, setPassword] = useState('admin123');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -24,8 +24,8 @@ export function AuthPage({ onAuthSuccess, theme, onThemeToggle }: AuthPageProps)
         setMode(nextMode);
         setError('');
         if (nextMode === 'login') {
-            setEmail('demo@campaign.com');
-            setPassword('demo123');
+            setEmail('admin@campaign.com');
+            setPassword('admin123');
         } else {
             setName('');
             setEmail('');
@@ -142,7 +142,9 @@ export function AuthPage({ onAuthSuccess, theme, onThemeToggle }: AuthPageProps)
                     </button>
                 </form>
 
-                <p className="auth-demo-note">Demo login: demo@campaign.com / demo123</p>
+                <p className="auth-demo-note">
+                    Admin login: admin@campaign.com / admin123. Viewer login: demo@campaign.com / demo123.
+                </p>
             </section>
         </main>
     );

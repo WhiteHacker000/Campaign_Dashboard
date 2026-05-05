@@ -7,3 +7,11 @@ export interface Campaign {
     impressions: number;
     ctr: number;
 }
+
+export interface CampaignInput {
+    name: string;
+    status: 'Active' | 'Paused';
+    clicks: number;
+    cost: number;
+    impressions: number;
+}

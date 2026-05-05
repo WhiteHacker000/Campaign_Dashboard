@@ -59,11 +59,33 @@ class SignupRequest(BaseModel):
     password: str
 
 
+class CampaignCreateRequest(BaseModel):
+    name: str
+    status: str
+    clicks: int
+    cost: float
+    impressions: int
+    admin_user_id: int
+
+
 def serialize_user(user: User):
     return {
         "id": user.id,
         "name": user.name,
         "email": user.email,
+        "is_admin": user.is_admin,
+    }
+
+
+def serialize_campaign(campaign: Campaign):
+    return {
+        "id": campaign.id,
+        "name": campaign.name,
+        "status": campaign.status,
+        "clicks": campaign.clicks,
+        "cost": campaign.cost,
+        "impressions": campaign.impressions,
+        "ctr": (campaign.clicks / campaign.impressions * 100) if campaign.impressions > 0 else 0.0
     }
 
 
@@ -77,6 +99,7 @@ def read_root():
         "endpoints": {
             "campaigns": "/campaigns",
             "filter_by_status": "/campaigns?status=Active",
+            "create_campaign": "POST /campaigns",
             "login": "/auth/login",
             "signup": "/auth/signup"
         }
@@ -164,17 +187,44 @@ def get_campaigns(
     
     # Convert to dictionary format for JSON response
     return [
-        {
-            "id": campaign.id,
-            "name": campaign.name,
-            "status": campaign.status,
-            "clicks": campaign.clicks,
-            "cost": campaign.cost,
-            "impressions": campaign.impressions,
-            "ctr": (campaign.clicks / campaign.impressions * 100) if campaign.impressions > 0 else 0.0
-        }
+        serialize_campaign(campaign)
         for campaign in campaigns
     ]
+
+
+@app.post("/campaigns", status_code=201)
+def create_campaign(payload: CampaignCreateRequest, db: Session = Depends(get_db)):
+    """
+    Create a campaign. Only seeded/admin users can add campaign records.
+    """
+    admin_user = db.query(User).filter(User.id == payload.admin_user_id).first()
+    if not admin_user or not admin_user.is_admin:
+        raise HTTPException(status_code=403, detail="Admin login is required to add campaigns")
+
+    name = payload.name.strip()
+    status = payload.status.strip()
+
+    if len(name) < 2:
+        raise HTTPException(status_code=400, detail="Campaign name must be at least 2 characters")
+
+    if status not in {"Active", "Paused"}:
+        raise HTTPException(status_code=400, detail="Status must be Active or Paused")
+
+    if payload.clicks < 0 or payload.cost < 0 or payload.impressions < 0:
+        raise HTTPException(status_code=400, detail="Campaign metrics cannot be negative")
+
+    campaign = Campaign(
+        name=name,
+        status=status,
+        clicks=payload.clicks,
+        cost=payload.cost,
+        impressions=payload.impressions
+    )
+    db.add(campaign)
+    db.commit()
+    db.refresh(campaign)
+
+    return serialize_campaign(campaign)
 
 
 if __name__ == "__main__":
